@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список работ</title>
+</head>
+<body>
+    <h1>Список работ</h1>
+    <ul>
+        {% for work in works %}
+            <li>
+                {{ work.name }} - {% if work.status %} Выполнено {% else %} Не выполнено {% endif %}
+
+                {% if not work.status %}
+                    <form action="{% url 'mark_work_as_done' work.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Отметить как выполненную</button>
+                    </form>
+                {% endif %}
+
+                <a href="{% url 'delete_work' work.id %}">Удалить</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
